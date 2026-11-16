@@ -1,0 +1,29 @@
+/* ---------- the scrolling update / news banner (sits inside the fixed dashboard header) ---------- */
+.tk { display: flex; align-items: center; gap: 6px; height: 30px; margin-bottom: 8px; padding: 0 4px 0 4px; border-radius: 999px; background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.28); overflow: hidden; font-family: var(--vh-font, 'Outfit', system-ui, sans-serif); }
+.tk-badge { flex: 0 0 auto; height: 22px; padding: 0 8px; border-radius: 999px; display: grid; place-items: center; background: #fff; color: var(--ac-2, #471fa4); font: 700 11px var(--vh-font, system-ui); text-transform: uppercase; letter-spacing: 0.6px; }
+.tk-track { flex: 1; min-width: 0; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.tk-run { display: inline-flex; white-space: nowrap; animation: tk-scroll linear infinite; will-change: transform; }
+.tk-run span { padding-right: 48px; font-size: 12.5px; font-weight: 500; color: #fff; }
+@keyframes tk-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.tk-btn { flex: 0 0 auto; height: 22px; padding: 0 9px; border-radius: 999px; display: grid; place-items: center; background: #fff; color: var(--ac-2, #471fa4); font: 700 12px var(--vh-font, system-ui); text-decoration: none; }
+.tk-x { flex: 0 0 auto; width: 22px; height: 22px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.2); color: #fff; font-size: 11px; cursor: pointer; }
+@media (prefers-reduced-motion: reduce) { .tk-run { animation: none; } .tk-track { overflow: hidden; } .tk-run span:last-child { display: none; } .tk-run span { text-overflow: ellipsis; } }
+@media (max-height: 700px) { .tk { height: 26px; margin-bottom: 6px; } }
+
+/* ---------- admin page ---------- */
+.nt-form label { display: block; margin: 12px 2px 6px; font-size: 12px; font-weight: 700; color: var(--ac-2, #471fa4); text-transform: uppercase; letter-spacing: 0.5px; }
+.nt-kind { padding: 0 0 4px; }
+.nt-row.off { opacity: 0.55; }
+.nt-kind-pill { font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: var(--ac-soft, #eee9fd); color: var(--ac-2, #471fa4); }
+.nt-msg { margin: 8px 0 4px; font-size: 14px; line-height: 1.45; }
+
+.nt-form label.nt-file, .nt-file { display: flex; flex-direction: column; gap: 3px; padding: 14px; border-radius: 14px; border: 1.5px dashed var(--ac-dash, #b7a5f5); background: var(--ac-soft, #eee9fd); cursor: pointer; margin: 0 0 4px; text-transform: none; letter-spacing: 0; }
+.nt-file b { font-size: 14px; color: var(--ink, #1c1832); overflow-wrap: anywhere; } .nt-file small { font-size: 12px; font-weight: 500; color: var(--muted, #6c6786); }
+.nt-file.has { border-style: solid; border-color: var(--ac, #673ee5); }
+.nt-check { display: flex !important; align-items: center; gap: 10px; text-transform: none !important; letter-spacing: 0 !important; font-size: 14px !important; color: var(--ink, #1c1832) !important; font-weight: 600 !important; }
+.nt-check input { width: 20px; height: 20px; accent-color: var(--ac, #673ee5); }
+.nt-status { margin-top: 10px; font-size: 13px; font-weight: 600; color: var(--ac-2, #471fa4); text-align: center; }
+.nt-done { background: #dcfce7 !important; color: #166534 !important; }
+
+/* the file box is a <label> inside the form: undo the small-caps label style for it */
+.nt-form label.nt-file { margin: 0 0 4px; font-size: inherit; font-weight: inherit; color: inherit; text-transform: none; letter-spacing: 0; }

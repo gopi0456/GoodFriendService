@@ -1,0 +1,174 @@
+import { useEffect, useRef, useState } from 'react'
+import { supabase, adminEmail } from '../supabaseClient'
+import TravelingMenu from './TravelingMenu'
+import Profile from './Profile'
+import Admin from './Admin'
+import Matrimony from '../matrimony/Matrimony'
+import PasswordPage from '../matrimony/PasswordPage'
+import Workers from '../workers/Workers'
+import Events from '../events/Events'
+import EnquiryPage from '../engage/EnquiryPage'
+import HistoryPage from '../engage/HistoryPage'
+import ChatPage from '../engage/ChatPage'
+import AdminEnquiries from '../engage/AdminEnquiries'
+import AdminActivity from '../engage/AdminActivity'
+import AdminChats from '../engage/AdminChats'
+import { applyTheme, getTheme, setTheme } from '../theme/theme'
+
+const greeting = () => {
+  const h = new Date().getHours()
+  return h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening'
+}
+
+// the five menus, shown as the overlapping circles
+const SERVICES = [
+  { key: 'matrimony', icon: '💍', title: 'Matrimonial', slug: 'matrimonial', page: 'matrimony', cta: 'Open Matrimonial' },
+  { key: 'travel', icon: '🚗', title: 'Travels', slug: 'travels', page: 'traveling', cta: 'Open Travels' },
+  { key: 'workers', icon: '🛠️', title: 'Workers', slug: 'workers', page: 'workers', cta: 'Find a worker' },
+  { key: 'events', icon: '🎉', title: 'Events', slug: 'events', page: 'events', cta: 'Browse events' },
+  { key: 'contact', icon: '✉️', title: 'Contact admin', slug: 'contact', page: 'contact', cta: 'Write to the admin' },
+]
+
+const Card = ({ icon, label, badge, onClick, admin }) => (
+  <button className={`vh-card ${admin ? 'admin' : ''}`} onClick={onClick}>
+    <span className="vh-c-ico">{icon}</span><b>{label}</b>{badge > 0 && <span className="vh-dot">{badge}</span>}
+  </button>
+)
+
+export default function Home({ session }) {
+  const [page, setPage] = useState('home')
+  const [sel, setSel] = useState('matrimony')
+  const [theme, setThemeState] = useState(getTheme())
+  const [stats, setStats] = useState({})
+  const menuRef = useRef(null)
+  const uid = session.user.id
+  const isAdmin = (session.user.email || '').toLowerCase() === adminEmail.toLowerCase()
+  const name = (session.user.email || 'friend').split('@')[0]
+
+  useEffect(() => { applyTheme(theme) }, [theme])
+
+  // keep the chosen menu word in view when the row is wider than the screen
+  useEffect(() => {
+    const el = menuRef.current && menuRef.current.querySelector('.on')
+    if (el && el.scrollIntoView) el.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' })
+  }, [sel])
+
+  // live numbers (each one is optional: a missing table just shows no number)
+  useEffect(() => {
+    if (page !== 'home') return
+    let alive = true
+    const head = (t) => supabase.from(t).select('id', { count: 'exact', head: true })
+    Promise.allSettled([
+      supabase.rpc('matrimony_stats'),
+      head('workers').eq('status', 'approved'),
+      head('event_profiles').eq('status', 'approved'),
+      head('chat_messages').neq('sender', uid).is('read_at', null),
+      head('matrimony_messages').eq('from_user', uid).eq('reply_seen', false),
+    ]).then(([m, w, e, c, r]) => {
+      if (!alive) return
+      const ok = (x) => x.status === 'fulfilled' && !x.value.error
+      setStats({
+        matri: ok(m) ? (Array.isArray(m.value.data) ? m.value.data[0] : m.value.data) : null,
+        workers: ok(w) ? w.value.count : null,
+        events: ok(e) ? e.value.count : null,
+        chats: ok(c) ? c.value.count || 0 : 0,
+        replies: ok(r) ? r.value.count || 0 : 0,
+      })
+    })
+    return () => { alive = false }
+  }, [page, uid])
+
+  const toggleTheme = () => { const t = theme === 'violet' ? 'classic' : 'violet'; setTheme(t); setThemeState(t) }
+  const back = () => setPage('home')
+
+  if (page === 'traveling') return <TravelingMenu onBack={back} />
+  if (page === 'profile') return <Profile onBack={back} />
+  if (page === 'admin') return <Admin onBack={back} />
+  if (page === 'workers') return <Workers session={session} onBack={back} />
+  if (page === 'workers-admin') return <Workers session={session} initialTab="admin" onBack={back} />
+  if (page === 'events') return <Events session={session} onBack={back} />
+  if (page === 'events-admin') return <Events session={session} initialTab="admin" onBack={back} />
+  if (page === 'password') return <PasswordPage session={session} onBack={back} />
+  if (page === 'matrimony-admin') return <Matrimony session={session} initialTab="admin" onBack={back} />
+  if (page === 'matrimony') return <Matrimony session={session} onBack={back} />
+  if (page === 'contact') return <EnquiryPage session={session} onBack={back} />
+  if (page === 'history') return <HistoryPage session={session} onBack={back} />
+  if (page === 'chats') return <ChatPage session={session} onBack={back} />
+  if (page === 'admin-enquiries') return <AdminEnquiries onBack={back} />
+  if (page === 'admin-activity') return <AdminActivity onBack={back} />
+  if (page === 'admin-chats') return <AdminChats onBack={back} />
+
+  const cur = SERVICES.find(s => s.key === sel)
+  const m = stats.matri
+  const f = {
+    matrimony: { sub: 'Find a match, check kundli and compatibility', lead: 'join', big: m ? m.total : '—', cap: 'members registered', extra: m ? `💞 ${m.couples} couples united` : '' },
+    travel: { sub: 'Rides, trips and travel details', lead: 'plan', big: 'Trips', cap: 'rides, bookings and more', extra: '' },
+    workers: { sub: 'Plumber, carpenter, jeweller and more', lead: 'call', big: stats.workers != null ? stats.workers : '—', cap: 'trusted workers', extra: '' },
+    events: { sub: 'Halls, catering, decoration, photography', lead: 'book', big: stats.events != null ? stats.events : '—', cap: 'event services', extra: '🏛️ 🍽️ 📸 💐 🎂 💎' },
+    contact: { sub: 'Ask about any menu', lead: 'need help?', big: 'Ask', cap: 'replies come to the app', extra: '' },
+  }[sel]
+
+  return (
+    <div className="vh-home">
+      <div className="vh-fixed">
+        <div className="vh-top">
+          <button className="vh-avatar" onClick={() => setPage('profile')} aria-label="My profile">{name[0].toUpperCase()}</button>
+          <div className="vh-hello"><span>{greeting()}</span><b>{name}</b></div>
+          <div className="vh-top-actions">
+            <button className="vh-word" onClick={toggleTheme}>Theme</button>
+            {isAdmin && <button className="vh-word" onClick={() => setPage('admin')}>Admin</button>}
+          </div>
+        </div>
+        <div className="vh-menu" role="tablist" ref={menuRef}>
+          {SERVICES.map(s => (
+            <button key={s.key} role="tab" className={`vh-tab ${sel === s.key ? 'on' : ''}`} aria-selected={sel === s.key} onClick={() => setSel(s.key)}>
+              {s.key === 'contact' ? 'Contact' : s.title}
+              {s.key === 'contact' && stats.replies > 0 && <span className="vh-dot">{stats.replies}</span>}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="vh-body">
+      <div className="vh-window">
+        <div className="vh-bar"><i /><i /><i /><span>{cur.slug}</span></div>
+        <div className="vh-win-body">
+          <div className="vh-mark">{cur.icon}</div>
+          <h1>{cur.title}</h1>
+          <p>{f.sub}</p>
+        </div>
+      </div>
+      <div className="vh-promo">
+        <small>{f.lead}</small>
+        <div className="vh-big">{f.big}</div>
+        <div className="vh-cap">{f.cap}</div>
+        {f.extra && <div className="vh-extra">{f.extra}</div>}
+        <button className="vh-cta" onClick={() => setPage(cur.page)}>{cur.cta} ↗</button>
+      </div>
+
+      <div className="vh-label">Quick access</div>
+      <div className="vh-grid">
+        <Card icon="💬" label="Chats" badge={stats.chats} onClick={() => setPage('chats')} />
+        <Card icon="🕘" label="My history" onClick={() => setPage('history')} />
+        <Card icon="✉️" label="Contact admin" badge={stats.replies} onClick={() => setPage('contact')} />
+        <Card icon="👤" label="My profile" onClick={() => setPage('profile')} />
+        <Card icon="🔑" label="Change password" onClick={() => setPage('password')} />
+      </div>
+
+      {isAdmin && (
+        <>
+          <div className="vh-label">Admin</div>
+          <div className="vh-grid">
+            <Card admin icon="💍" label="Matrimony admin" onClick={() => setPage('matrimony-admin')} />
+            <Card admin icon="🛠️" label="Workers admin" onClick={() => setPage('workers-admin')} />
+            <Card admin icon="🎉" label="Events admin" onClick={() => setPage('events-admin')} />
+            <Card admin icon="📥" label="Enquiries" onClick={() => setPage('admin-enquiries')} />
+            <Card admin icon="🕘" label="Activity" onClick={() => setPage('admin-activity')} />
+            <Card admin icon="💬" label="Chat requests" onClick={() => setPage('admin-chats')} />
+          </div>
+        </>
+      )}
+      </div>
+    </div>
+  )
+}

@@ -1,0 +1,24 @@
+/* ---------- alert bar (slides up from the bottom when a new alert arrives, so it never covers the header buttons) ---------- */
+.al-toast { position: fixed; z-index: 4000; left: 12px; right: 12px; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); display: flex; align-items: center; gap: 12px; padding: 12px 12px 12px 14px; border-radius: 20px; cursor: pointer;
+  background: rgba(30, 22, 40, 0.88); -webkit-backdrop-filter: blur(20px) saturate(160%); backdrop-filter: blur(20px) saturate(160%); border: 1px solid rgba(255, 255, 255, 0.22); color: #fff;
+  box-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.7); font-family: var(--vh-font, 'Outfit', system-ui, sans-serif); animation: al-in 0.28s ease-out; }
+@keyframes al-in { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+.al-toast-ico { width: 38px; height: 38px; flex: 0 0 38px; border-radius: 50%; display: grid; place-items: center; font-size: 19px; background: rgba(255, 255, 255, 0.9); }
+.al-toast-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
+.al-toast-txt b { font-size: 14px; font-weight: 600; } .al-toast-txt small { font-size: 12.5px; color: rgba(255, 255, 255, 0.75); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.al-toast-x { width: 28px; height: 28px; flex: 0 0 28px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.16); color: #fff; font-size: 12px; cursor: pointer; }
+@media (prefers-reduced-motion: reduce) { .al-toast { animation: none; } }
+
+/* ---------- alerts page ---------- */
+.al-voice { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-radius: 16px; background: var(--ac-soft, #eee9fd); margin-bottom: 8px; }
+.al-switch { display: flex; align-items: center; gap: 12px; cursor: pointer; flex: 1; min-width: 0; }
+.al-switch input { width: 22px; height: 22px; accent-color: var(--ac, #673ee5); flex: 0 0 22px; }
+.al-switch b { display: block; font-size: 14px; } .al-switch small { display: block; font-size: 12px; color: var(--muted, #6c6786); }
+.al-status { font-size: 12px; color: var(--muted, #6c6786); margin: 2px 4px 12px; line-height: 1.4; }
+.al-head { display: flex; align-items: center; justify-content: space-between; margin: 6px 2px 10px; }
+.al-row { position: relative; width: 100%; display: flex; align-items: center; gap: 12px; text-align: left; margin-bottom: 8px; padding: 12px 14px; border-radius: 18px; background: #fff; border: 1px solid var(--ac-line, #e3dcf9); color: var(--ink, #1c1832); font-family: inherit; cursor: pointer; }
+.al-row.new { border-color: var(--ac, #673ee5); box-shadow: 0 10px 22px -14px rgba(var(--ac-rgb, 103, 62, 229), 0.9); }
+.al-ico { width: 40px; height: 40px; flex: 0 0 40px; border-radius: 50%; display: grid; place-items: center; font-size: 19px; background: var(--ac-soft, #eee9fd); }
+.al-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; } .al-txt b { font-size: 14px; } .al-txt small { font-size: 12.5px; color: var(--muted, #6c6786); overflow-wrap: anywhere; }
+.al-time { font-size: 11px; color: var(--muted, #6c6786); white-space: nowrap; align-self: flex-start; }
+.al-dot { position: absolute; bottom: 12px; right: 14px; width: 9px; height: 9px; border-radius: 50%; background: #ff4d6d; }

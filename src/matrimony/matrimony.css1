@@ -1,0 +1,209 @@
+/* Matrimonial add-on styles (prefixed mm-). Reuses your App.css classes. */
+.mm-header { background: linear-gradient(135deg, #ec4899, #be185d); box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3); }
+.mm-tabs { top: 65px; }
+.mm-tabs .tab { font-size: 12px; padding: 12px 2px; }
+.mm-tabs .tab.active { color: #be185d; border-bottom-color: #ec4899; }
+.mm-card { display: flex; gap: 14px; align-items: flex-start; cursor: pointer; }
+.mm-card-body { flex: 1; min-width: 0; }
+.mm-avatar { border-radius: 14px; object-fit: cover; flex-shrink: 0; background: #fce7f3; }
+.mm-avatar-ph { display: flex; align-items: center; justify-content: center; }
+.mm-banner { border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; font-size: 13px; line-height: 1.5; }
+.mm-banner.warn { background: #fef3c7; color: #92400e; }
+.mm-banner.bad { background: #fee2e2; color: #991b1b; }
+.mm-banner.ok { background: #d1fae5; color: #065f46; }
+.mm-row { display: flex; gap: 10px; }
+.mm-row > * { flex: 1; min-width: 0; }
+.mm-btn-pink { background: linear-gradient(135deg, #ec4899, #be185d); color: white; box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3); }
+.mm-btn-light { background: #f3f4f6; color: #374151; }
+.mm-photo-big { width: 100%; max-height: 320px; object-fit: cover; border-radius: 16px; margin-bottom: 14px; background: #fce7f3; }
+.mm-photo-ph { height: 160px; display: flex; align-items: center; justify-content: center; font-size: 64px; border-radius: 16px; margin-bottom: 14px; background: #fce7f3; }
+.mm-subtabs { display: flex; gap: 8px; margin-bottom: 14px; }
+.mm-subtab { flex: 1; text-align: center; padding: 10px; border-radius: 10px; background: #f3f4f6; font-weight: 600; font-size: 13px; cursor: pointer; color: #6b7280; }
+.mm-subtab.active { background: #fce7f3; color: #be185d; }
+.mm-section-title { font-size: 12px; font-weight: 700; color: #be185d; text-transform: uppercase; letter-spacing: 0.6px; margin: 16px 0 6px; }
+.mm-empty { text-align: center; color: #6b7280; padding: 30px 10px; font-size: 14px; }
+.mm-select { appearance: auto; }
+.mm-textarea { min-height: 84px; resize: vertical; font-family: inherit; }
+.mm-badge-declined { background: #e5e7eb; color: #374151; }
+.mm-tabs .tab { white-space: nowrap; font-size: 11px; }
+.badge-granted { background: #d1fae5; color: #065f46; }
+.badge-declined { background: #e5e7eb; color: #374151; }
+
+/* ===================== gender themes ===================== */
+.mm-theme-female {
+  --mm-a: #ec4899; --mm-b: #be185d; --mm-soft: #fdf2f8; --mm-ink: #831843;
+  --mm-hero: linear-gradient(135deg, #f9a8d4 0%, #ec4899 55%, #9d174d 100%);
+}
+.mm-theme-male {
+  --mm-a: #3b82f6; --mm-b: #1d4ed8; --mm-soft: #eff6ff; --mm-ink: #1e3a8a;
+  --mm-hero: linear-gradient(135deg, #93c5fd 0%, #3b82f6 55%, #1e3a8a 100%);
+}
+/* list cards: women = round photo + soft pink edge, men = squared photo + blue edge */
+.mm-card.mm-theme-female, .mm-card.mm-theme-male { border-left: 4px solid var(--mm-a); }
+.mm-theme-female .mm-avatar { border-radius: 50%; border: 2px solid var(--mm-a); }
+.mm-theme-male .mm-avatar { border-radius: 10px; border: 2px solid var(--mm-a); }
+.mm-avatar-ph { background: var(--mm-soft, #fce7f3); }
+
+/* ===================== profile sheet ===================== */
+.mm-sheet-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 1000; display: flex; justify-content: center; }
+.mm-sheet { position: relative; width: 100%; max-width: 520px; height: 100%; overflow-y: auto; background: #fff; display: flex; flex-direction: column; }
+.mm-close { position: absolute; top: 12px; right: 12px; z-index: 5; width: 36px; height: 36px; border-radius: 50%; border: none; background: rgba(0,0,0,0.45); color: #fff; font-size: 16px; cursor: pointer; }
+
+.mm-hero { position: relative; height: 340px; flex-shrink: 0; background: var(--mm-hero); overflow: hidden; }
+.mm-hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mm-hero-ph { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 110px; }
+.mm-hero-fade { position: absolute; left: 0; right: 0; bottom: 0; height: 60%; background: linear-gradient(to top, rgba(0,0,0,0.75), transparent); }
+.mm-hero-text { position: absolute; left: 18px; right: 18px; bottom: 22px; color: #fff; }
+.mm-hero-text h2 { font-size: 26px; margin: 0 0 4px; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+.mm-hero-text div { font-size: 14px; opacity: 0.95; }
+.mm-tag { position: absolute; top: 14px; left: 14px; background: #fff; color: var(--mm-b); font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; }
+
+/* women: soft, rounded, floral feel */
+.mm-theme-female .mm-hero { border-radius: 0 0 40px 40px; }
+.mm-theme-female .mm-hero-text h2 { font-style: italic; letter-spacing: 0.3px; }
+.mm-theme-female .mm-hero::after { content: '✿  ♥  ✿'; position: absolute; top: 16px; right: 60px; color: rgba(255,255,255,0.75); font-size: 14px; letter-spacing: 6px; }
+.mm-theme-female .mm-tile, .mm-theme-female .mm-compat { border-radius: 20px; }
+.mm-theme-female .mm-section-title { text-transform: none; font-size: 15px; letter-spacing: 0; }
+.mm-theme-female .btn { border-radius: 24px; }
+
+/* men: bold, angular, structured */
+.mm-theme-male .mm-hero { clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%); }
+.mm-theme-male .mm-hero-text { bottom: 34px; }
+.mm-theme-male .mm-hero-text h2 { text-transform: uppercase; letter-spacing: 1px; font-weight: 800; }
+.mm-theme-male .mm-tile, .mm-theme-male .mm-compat { border-radius: 8px; border-left: 4px solid var(--mm-a); }
+.mm-theme-male .mm-section-title { font-weight: 800; letter-spacing: 1px; }
+.mm-theme-male .btn { border-radius: 8px; }
+
+.mm-body { padding: 14px 16px 90px; margin-top: -6px; flex: 1; }
+.mm-section-title { color: var(--mm-b); }
+.mm-text { font-size: 14px; line-height: 1.6; color: #374151; margin: 0 0 4px; }
+.mm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mm-tile { display: flex; gap: 10px; align-items: center; background: var(--mm-soft); padding: 10px 12px; }
+.mm-tile-icon { font-size: 20px; }
+.mm-tile-label { font-size: 11px; color: #6b7280; }
+.mm-tile-value { font-size: 13px; font-weight: 600; color: var(--mm-ink); }
+.mm-btn-theme { background: linear-gradient(135deg, var(--mm-a), var(--mm-b)); color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.18); }
+.mm-footer { position: sticky; bottom: 0; display: flex; gap: 10px; padding: 12px 16px; background: #fff; border-top: 1px solid #eee; z-index: 4; }
+.mm-footer .btn { margin-top: 0; }
+
+/* ===================== compatibility ===================== */
+.mm-compat { background: #fff; border: 1px solid #eee; box-shadow: 0 4px 14px rgba(0,0,0,0.07); padding: 14px; margin-bottom: 14px; }
+.mm-compat-top { display: flex; align-items: center; gap: 14px; }
+.mm-ring { position: relative; width: 88px; height: 88px; flex-shrink: 0; }
+.mm-ring-num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 800; letter-spacing: -0.4px; }
+.mm-ring-num sup { font-size: 0.6em; }
+.mm-compat-label { font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.6px; }
+.mm-verdict { font-size: 17px; font-weight: 800; margin: 2px 0; }
+.mm-compat-more { margin-top: 10px; font-size: 13px; }
+.mm-compat-more summary { cursor: pointer; color: var(--mm-b); font-weight: 600; }
+.mm-factor { display: flex; gap: 8px; align-items: center; padding: 5px 0; border-bottom: 1px dashed #eee; }
+.mm-factor-label { font-weight: 600; flex: 1; }
+.mm-factor-note { color: #6b7280; font-size: 12px; text-align: right; }
+
+/* ===================== admin ===================== */
+.mm-check { display: flex; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid #f3f4f6; font-size: 14px; }
+.mm-check input { width: 20px; height: 20px; }
+.mm-tabs .tab { overflow: hidden; text-overflow: ellipsis; }
+
+.mm-match-badge { background: #fce7f3; color: #be185d; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 20px; }
+.mm-subtab { font-size: 12px; padding: 10px 4px; }
+
+.mm-guna { width: 80px; height: 80px; border: 6px solid; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.05; }
+.mm-guna b { font-size: 24px; }
+.mm-guna span { font-size: 11px; color: #6b7280; }
+
+/* ===================== browse counts / locked filter / chips ===================== */
+.mm-counts { display: flex; gap: 10px; }
+.mm-counts > div { flex: 1; background: linear-gradient(135deg, #fdf2f8, #eff6ff); border-radius: 14px; padding: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.mm-counts b { display: block; font-size: 24px; color: #be185d; }
+.mm-counts span { font-size: 12px; color: #4b5563; }
+.mm-locked { margin-top: 10px; padding: 10px 12px; border-radius: 10px; background: #f3f4f6; font-size: 13px; color: #374151; }
+.mm-locked span { color: #6b7280; font-size: 12px; }
+.mm-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.mm-chip { background: #fce7f3; color: #9d174d; border-radius: 20px; padding: 5px 10px; font-size: 12px; font-weight: 600; }
+.mm-chip b { cursor: pointer; margin-left: 4px; }
+.mm-note { font-size: 12px; color: #6b7280; margin: 10px 0; line-height: 1.5; }
+sup { font-size: 0.6em; }
+
+/* ===================== admin match ===================== */
+.mm-picklist { max-height: 260px; overflow-y: auto; border: 1px solid #f3f4f6; border-radius: 10px; padding: 0 10px; margin-bottom: 10px; }
+.mm-result-head { display: flex; gap: 12px; align-items: center; cursor: pointer; }
+.mm-result-score { font-size: 26px; font-weight: 800; min-width: 74px; text-align: center; }
+
+/* ===================== score strip / badges ===================== */
+.mm-scores { display: flex; gap: 8px; margin-bottom: 14px; }
+.mm-score { flex: 1; background: #fff; border: 1px solid #eee; border-radius: 14px; padding: 10px 6px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.mm-score-n { font-size: 22px; font-weight: 800; color: var(--mm-b, #be185d); line-height: 1.1; }
+.mm-score-n small { font-size: 12px; color: #6b7280; font-weight: 600; }
+.mm-score-l { font-size: 11px; color: #6b7280; margin-top: 2px; }
+.mm-score-s { font-size: 10px; color: #9ca3af; margin-top: 2px; }
+.mm-ver { font-size: 10px; opacity: 0.7; font-weight: 400; }
+
+/* ===================== kundli ===================== */
+.mm-kundli-head { background: linear-gradient(135deg, #7a1a33, #b45309); color: #fff; padding: 22px 18px 16px; }
+.mm-kundli-title { font-size: 22px; font-weight: 800; margin-bottom: 2px; }
+.mm-kundli { --mm-a: #b45309; --mm-b: #7a1a33; --mm-soft: #fff7ed; --mm-ink: #7a1a33; }
+.mm-chartbox { margin: 8px 0 14px; text-align: center; }
+.mm-chart-title { font-weight: 700; color: #7a1a33; margin-bottom: 4px; font-size: 14px; }
+.mm-chart { width: 100%; max-width: 340px; background: #fffaf5; border-radius: 8px; }
+.mm-scroll { overflow-x: auto; }
+.mm-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.mm-table th { background: #7a1a33; color: #fff; text-align: left; padding: 7px 8px; font-weight: 600; }
+.mm-table td { padding: 7px 8px; border-bottom: 1px solid #f3e8e0; }
+.mm-table tr:nth-child(even) td { background: #fff7ed; }
+
+/* ===================== SearchSelect ===================== */
+.mm-ss { position: relative; }
+.mm-ss-list { position: absolute; left: 0; right: 0; top: 100%; z-index: 60; background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); max-height: 240px; overflow-y: auto; }
+.mm-ss-item { padding: 11px 12px; font-size: 14px; border-bottom: 1px solid #f3f4f6; cursor: pointer; }
+.mm-ss-item:active, .mm-ss-item:hover { background: #fce7f3; }
+
+/* ===================== dashboard ===================== */
+.mm-welcome { font-size: 18px; margin-bottom: 12px; }
+.mm-dash { margin-bottom: 8px; }
+.mm-dash-main { background: linear-gradient(135deg, #ec4899, #be185d); color: #fff; border-radius: 18px; padding: 18px; text-align: center; box-shadow: 0 6px 18px rgba(190,24,93,0.3); }
+.mm-dash-main b { display: block; font-size: 38px; line-height: 1.1; }
+.mm-dash-main span { font-size: 13px; opacity: 0.95; }
+.mm-dash-row { display: flex; gap: 10px; margin-top: 10px; }
+.mm-dash-row > div { flex: 1; background: #fff; border-radius: 14px; padding: 12px 6px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+.mm-dash-row b { display: block; font-size: 22px; color: #be185d; }
+.mm-dash-row span { font-size: 12px; color: #4b5563; }
+.mm-story { text-align: center; }
+.mm-story-photos { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 8px; }
+.mm-story-heart { font-size: 26px; }
+
+/* ===================== short status notes ===================== */
+.mm-lock-chip { display: inline-block; background: #f3f4f6; color: #6b7280; font-size: 12px; padding: 5px 10px; border-radius: 20px; margin: 0 0 12px; }
+.mm-status-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.mm-status-row h3 { margin: 0; }
+.mm-status { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; background: #f3f4f6; color: #6b7280; }
+.mm-status-approved { background: #d1fae5; color: #065f46; }
+.mm-status-pending { background: #fef3c7; color: #92400e; }
+.mm-status-married { background: #fce7f3; color: #9d174d; }
+
+/* ===================== messages to the admin ===================== */
+.mm-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.mm-tabs::-webkit-scrollbar { display: none; }
+.mm-tabs .tab { flex: 0 0 auto; min-width: 70px; padding-left: 12px; padding-right: 12px; }
+.mm-chat-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; gap: 10px; }
+.mm-thread { margin-bottom: 14px; }
+.mm-bubble { max-width: 88%; padding: 10px 13px; border-radius: 16px; font-size: 14px; line-height: 1.45; margin-bottom: 6px; word-break: break-word; }
+.mm-bubble b { display: block; font-size: 11px; opacity: 0.7; margin-bottom: 2px; }
+.mm-bubble.me { background: linear-gradient(135deg, #ec4899, #be185d); color: #fff; margin-left: auto; border-bottom-right-radius: 4px; }
+.mm-bubble.admin { background: #f3f4f6; color: #111827; margin-right: auto; border-bottom-left-radius: 4px; }
+.mm-time { display: block; font-size: 10px; opacity: 0.65; margin-top: 4px; text-align: right; }
+.mm-wait { font-size: 12px; color: #6b7280; margin: 0 0 4px 4px; }
+.mm-link { background: none; border: 0; color: #9ca3af; font-size: 12px; padding: 2px 4px; cursor: pointer; }
+
+/* ===================== enquiry topics ===================== */
+.mm-topics { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; }
+.mm-topics button { border: 1px solid #e3dcf9; background: #fff; color: #4b4570; font-size: 12px; font-weight: 600; padding: 6px 11px; border-radius: 999px; }
+.mm-topics button.on { background: #673ee5; border-color: #673ee5; color: #fff; }
+.mm-topic-line { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 6px; }
+.mm-topic { font-size: 11px; font-weight: 700; background: #eee9fd; color: #471fa4; padding: 3px 9px; border-radius: 999px; }
+.mm-ref { font-size: 11px; font-weight: 600; background: #f3f4f6; color: #4b5563; padding: 3px 9px; border-radius: 999px; }
+
+/* ===================== fit every phone: menus scroll inside their own row, the page never gets wider ===================== */
+.mm-subtabs { overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.mm-subtabs::-webkit-scrollbar { display: none; }
+.mm-subtab { flex: 1 0 auto; white-space: nowrap; padding-left: 14px; padding-right: 14px; }
